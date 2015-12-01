@@ -1,0 +1,125 @@
+# Video 1********************************************************************
+
+install.packages("swirl")
+library(swirl)
+swirl()
+
+# Excercise 1****************************************************************
+#Answer 1- 
+version
+3.2.2
+  
+#Answer 2- 
+a <- c(2.23, 3.45, 1.87, 2.11, 7.33, 18.34, 19.23)
+mean(a)
+7.794
+#Answer 3-
+i_squared_sum <- c(0)
+for(i in 1:25) 
+{
+  i_squared_sum <- i_squared_sum + i^2
+}
+i_squared_sum
+5525
+#Answer 4-
+cars
+class(cars)
+data.frame
+#Answer 5-
+nrow(cars)
+50
+#Answer 6-
+colnames(cars)[2]
+dist
+#Answer 7-
+mean(cars[,2])
+42.98
+#Answer 8-
+which(cars$dist == 85)
+
+
+# Video 5********************************************************************
+
+
+
+# Excercise 2****************************************************************
+
+library(downloader) 
+url <- "https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/femaleMiceWeights.csv"
+filename <- "femaleMiceWeights.csv" 
+download(url, destfile=filename)
+#Answer 1-
+dat <- read.csv(filename)
+Bodyweight
+#Answer 2-
+dat[12,2]
+26.25
+#Answer 3-
+dat$Bodyweight[11]
+26.91
+#Answer 4-
+length(dat$Diet)
+24
+#Answer 5-
+dat
+chowVals <- mean(filter(dat, Diet=="hf") %>% select(Bodyweight))
+lapply(chowVals, mean, na.rm = TRUE)
+#Answer 6-
+set.seed(1)
+index <- sample(13:24, 1)
+16
+dat[16,2]
+25.34
+# Video 6********************************************************************
+filename <- "femaleMiceWeights.csv"
+dat <- read.csv(filename)
+head(dat) #In R Studio use View(dat)
+library(dplyr)
+View(dat)
+
+library(dplyr) 
+chow <- filter(dat, Diet=="chow") #keep only the ones with chow diet
+head(chow)
+chowVals <- select(chow,Bodyweight)
+head(chowVals)
+chowVals <- filter(dat, Diet=="chow") %>% select(Bodyweight)
+
+unlist(chowVals)
+
+chowVals <- filter(dat, Diet=="chow") %>% select(Bodyweight) %>% unlist
+class( chowVals )
+chowVals
+
+chowVals <- dat[ dat$Diet=="chow", colnames(dat)=="Bodyweight"]
+
+# Excercise 3 ********************************************************************
+
+library(downloader)
+url="https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv"
+filename <- basename(url)
+download(url,filename)
+msleep <- read.csv(filename)
+head(msleep) #In R Studio use View(dat)
+library(dplyr)
+View(msleep)
+#Answer 1-
+class(msleep)
+data.frame
+#Answer 2-
+library(dplyr) 
+primates <- filter(msleep, order=="Primates") 
+nrow(primates)
+#Answer 3-
+class(primates)
+#Answer 4-
+primates_total <- filter(msleep, order=="Primates") %>% select(sleep_total)
+class(primates_total)
+data.frame
+#Answer 5-
+primates_total_vec <- filter(msleep, order=="Primates") %>% select(sleep_total) %>% unlist
+mean(primates_total_vec)
+10.5
+#Answer 6-
+primates_total_summarize <- filter(msleep, order=="Primates") 
+summarize(primates_total_summarize, mean(sleep_total))
+10.5
